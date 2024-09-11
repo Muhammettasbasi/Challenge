@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.postgresql.volumes.persistentVolumeClaim.claimName }}
+  namespace:  {{ .Values.postgresql.namespace }}
+  annotations:
+   "helm.sh/hook": pre-install
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
