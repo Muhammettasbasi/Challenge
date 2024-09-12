@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: pg-backup-cronjob
-  namespace: postgresql
+  namespace: {{ .Values.postgresql.metadata.name }}
 spec:
   schedule: "0 2 * * *"  # Her gün saat 2'de çalışır
   jobTemplate:
@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
           - name: pg-backup
-            image: postgres:13
+            image: "{{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}"
             env:
             - name: POSTGRES_PASSWORD
               valueFrom:
@@ -40,7 +40,13 @@ spec:
                 mkdir -p /backup
                 # 7 günden eski dosyaları siliyoruz
                 find /backup -type f -name "*.sql" -mtime +7 -exec rm {} \;
-                
                 # Yeni yedek dosyasını oluşturuyoruz
                 pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DB -F c -f /backup/$POSTGRES_DB_$(date +\%Y-\%m-\%d_\%H:\%M:\%S).sql;
+            volumeMounts:
+            - name: backup-volume
+              mountPath: /backup
           restartPolicy: OnFailure
+          volumes:
+          - name: backup-volume
+            persistentVolumeClaim:
+              claimName: backup-pvc

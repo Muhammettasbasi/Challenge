@@ -1,0 +1,17 @@
+- name: Docker Kurulumu
+  import_playbook: ./docker/install_docker.yml
+
+- name: Terraform Kurulumu
+  import_playbook: ./terraform/install_terraform.yml
+
+- name: Minikube Kurulumu
+  import_playbook: ./terraform/create_minikube_cluster.yml
+
+- name: Helm Kurulumu
+  import_playbook: ./helm/install_helm.yml
+
+- name: Kubectl Kurulumu
+  import_playbook: ./kubectl/install_kubectl.yml
+
+- name: Jenkins Kurulumu
+  import_playbook: ./jenkins/install_jenkins.yml

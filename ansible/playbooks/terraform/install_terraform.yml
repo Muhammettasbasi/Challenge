@@ -1,0 +1,30 @@
+---
+- name: Terraform Kurulum 
+  hosts: all
+  become: yes
+  tasks:
+    - name: HashiCorp GPG anahtarı indiriliyor..
+      shell: |
+        wget -qO- https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+
+    - name: HashiCorp apt deposu ekleniyor...
+      apt_repository:
+        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com jammy main"
+        state: present
+
+    - name: apt paket listesi güncelleniyor...
+      apt:
+        update_cache: yes
+
+    - name: Terraform yükleniyor...
+      apt:
+        name: terraform
+        state: present
+
+    - name: Terraform kurulumunu doğrulanıyor..
+      command: terraform -v
+      register: terraform_version_output
+
+    - name: Terraform versiyon çıktısı
+      debug:
+        var: terraform_version_output.stdout

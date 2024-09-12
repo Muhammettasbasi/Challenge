@@ -1,0 +1,22 @@
+---
+- name: Kubectl Binary kurulumu
+  hosts: all
+  become: yes
+  vars_files:
+   - ../../vars/main.yml
+  tasks:
+    - name: kubectl binary dosyası indiriliyor..
+      get_url:
+        url: "https://dl.k8s.io/release/{{ kubectl_client_version }}/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name:  Kubectl kurulumu doğrulanıyor..
+      command: kubectl version --client
+      register: kubectl_version_output
+      ignore_errors: yes
+
+    - name:  kubectl version çıktısı
+      debug:
+        var: kubectl_version_output.stdout
+

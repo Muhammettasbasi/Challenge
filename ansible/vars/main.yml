@@ -1,0 +1,10 @@
+---
+
+jenkins_url: "18.184.53.226"
+jenkins_user: "admin"
+jenkins_password: "11fc27542458d83ea57b8b53aa9b5e66ba"
+pipeline_name: "Challenge"
+
+github_credential: "925b2d7f-e1f5-4a40-9212-925c14a8cad3"
+
+kubectl_client_version: "v1.31.0"

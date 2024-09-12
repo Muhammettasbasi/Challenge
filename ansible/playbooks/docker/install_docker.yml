@@ -1,0 +1,36 @@
+---
+- name: Docker Kurulumu
+  hosts: all
+  become: yes
+  tasks:
+    - name: apt paket listesi güncelleniyor..
+      apt:
+        update_cache: yes
+    - name: apt paket listesi yükleniyor..
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+    - name: Docker GPG anahtarı indiriliyor...
+      shell: |
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+    - name: Docker apt deposu ekleniyor...
+      apt_repository:
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'
+        state: present
+    - name: Docker yükleniyor...
+      apt:
+        name:
+          - docker-ce
+        state: present
+    - name: Docker kurulumunu doğrulanıyor...
+      command: docker -v
+      register: docker_version_output
+
+    - name: Docker versiyon çıktısı
+      debug:
+        var: docker_version_output.stdout

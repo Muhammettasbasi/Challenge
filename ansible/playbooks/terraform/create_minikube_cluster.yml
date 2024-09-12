@@ -1,0 +1,30 @@
+---
+- name: Terraform ile minikube  kurulumu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Terraform çalışma dizini oluşturuluyor...
+      file:
+        path: /home/ubuntu/terraform
+        state: directory
+
+    - name: Terraform Dosyası kopyalanıyor...
+      synchronize:
+        src: ./terraform
+        dest: /home/ubuntu/
+        recursive: yes
+
+    - name: Terraform başlatılıyor...
+      command: terraform init
+      args:
+        chdir: /home/ubuntu/terraform
+
+    - name: Terraform plan oluşturuluyor...
+      command: terraform plan
+      args:
+        chdir: /home/ubuntu/terraform
+
+    - name: Terraform  apply çalıştırılıyor...
+      command: terraform apply -auto-approve
+      args:
+        chdir: /home/ubuntu/terraform

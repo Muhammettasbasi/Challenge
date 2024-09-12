@@ -1,0 +1,27 @@
+---
+- name: Install Helm on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name:  apt-transport-https paketi yükleniyor..
+      apt:
+        name: apt-transport-https
+        state: present
+
+    - name: Helm GPG key Ekleniyor...
+      shell: |
+           curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+
+    - name: Helm Repository Ekleniyor..
+      apt_repository:
+        repo: "deb https://baltocdn.com/helm/stable/debian/ all main"
+        state: present
+
+    - name: Apt repository güncelleniyor...
+      apt:
+        update_cache: yes
+
+    - name: Helm yükleniyor...
+      apt:
+        name: helm
+        state: present

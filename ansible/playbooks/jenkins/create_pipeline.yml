@@ -1,0 +1,46 @@
+---
+- name: Jenkins API ile Pipeline oluşturma
+  hosts: all
+  vars_files:
+   - ../../vars/main.yml
+  tasks:
+    - name: Jenkins pipeline oluşturma
+      uri:
+        url: "http://{{ jenkins_url }}:8080/createItem?name={{ pipeline_name }}"
+        method: POST
+        user: "{{ jenkins_user }}"
+        password: "{{ jenkins_password }}"
+        force_basic_auth: yes
+        status_code: 200
+        timeout: 60
+        body: |
+          <flow-definition plugin="workflow-job">
+            <actions/>
+            <description>This is a new pipeline created by Ansible</description>
+            <keepDependencies>false</keepDependencies>
+            <properties/>
+            <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps">
+              <script>
+                pipeline {
+                  agent any
+                  stages {
+                    stage('Clone Repository') {
+                      steps {
+                        git branch: 'master', credentialsId: '{{ github_credential }}', url: 'https://github.com/your-repo.git'
+                      }
+                    }
+                    stage('Helm İnstall Minikube') {
+                      steps {
+                        sh 'sudo helm install challange ./helm'
+                      }
+                    }
+                  }
+                }
+              </script>
+              <sandbox>true</sandbox>
+            </definition>
+            <triggers/>
+            <disabled>false</disabled>
+          </flow-definition>
+        headers:
+          Content-Type: "application/xml"

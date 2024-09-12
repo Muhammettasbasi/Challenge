@@ -1,0 +1,35 @@
+---
+- name: Jenkins Kurulumu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Java 17 yükleniyor..
+      apt:
+        name: openjdk-17-jdk
+        state: present
+        update_cache: yes
+    - name: Jenkins GPG anahtarı yükleniyor..
+      get_url:
+        url: https://pkg.jenkins.io/debian/jenkins.io-2023.key
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+
+    - name: Jenkins deposu ekleniyor..
+      lineinfile:
+        path: /etc/apt/sources.list.d/jenkins.list
+        line: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian binary/"
+        create: yes
+
+    - name: apt paket listesi güncelleniyor..
+      apt:
+        update_cache: yes
+
+    - name: Jenkins yükleniyor..
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Jenkins servisi başlatılıyor..
+      systemd:
+        name: jenkins
+        state: started
+        enabled: yes
