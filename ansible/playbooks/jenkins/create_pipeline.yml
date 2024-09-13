@@ -16,7 +16,7 @@
         body: |
           <flow-definition plugin="workflow-job">
             <actions/>
-            <description>This is a new pipeline created by Ansible</description>
+            <description></description>
             <keepDependencies>false</keepDependencies>
             <properties/>
             <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps">
@@ -26,12 +26,12 @@
                   stages {
                     stage('Clone Repository') {
                       steps {
-                        git branch: 'master', credentialsId: '{{ github_credential }}', url: 'https://github.com/your-repo.git'
+                        git branch: 'master', credentialsId: '{{ github_credential }}', url: '{{ github_url }}'
                       }
                     }
                     stage('Helm İnstall Minikube') {
                       steps {
-                        sh 'sudo helm install challange ./helm'
+                        sh 'sudo helm install challenge ./helm'
                       }
                     }
                   }
