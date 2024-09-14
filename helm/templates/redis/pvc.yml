@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.redis.volumes.persistentVolumeClaim.claimName }}
+  name: redis-data-pvc
   namespace:  {{ .Values.redis.namespace }}
   annotations:
    "helm.sh/hook": pre-install
