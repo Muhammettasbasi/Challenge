@@ -36,10 +36,10 @@ postgresql:
       value: Y2hhbGxlbmdl
     postgresqluser:
       key: postgresql_user
-      value: cG9zdGdyZXMK
+      value: Y2hhbGxlbmdl
     postgresqldb:  
       key: postgresql_db
-      value: cG9zdGdyZXMK
+      value: Y2hhbGxlbmdl
     postgresqlhost:
       key: postgresql_host
       value: cG9zdGdyZXNxbC1zZXJ2aWNl
