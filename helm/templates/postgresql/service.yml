@@ -4,11 +4,10 @@ metadata:
   name: {{ .Values.postgresql.metadata.name }}-service
   namespace: {{ .Values.postgresql.namespace }}
 spec:
-  type: NodePort
+  type: {{ .Values.postgresql.service.type }}
   selector:
     app: {{ .Values.postgresql.metadata.name }}
   ports:
     - protocol: TCP
       port: {{ .Values.postgresql.service.port }}
-      targetPort: {{ .Values.postgresql.service.port }}
-      nodePort: {{ .Values.postgresql.service.nodePort }}
+      targetPort: {{ .Values.postgresql.service.targetPort }}

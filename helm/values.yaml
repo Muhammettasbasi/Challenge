@@ -6,21 +6,10 @@ postgresql:
   image:
     repository: postgres
     tag: "latest"
-  volumes:  
-     name: postgresql-data-pvc
-     persistentVolumeClaim:
-         claimName: postgresql-data-pvc
-     configmap:
-        name: postgresql.conf
-        configMap:
-           name: postgresql.conf
-           items:
-             key: postgresql.conf
-             path: postgresql.conf
   service:
-    type: NodePort
-    port: 5432
-    nodePort: 32432
+    type: Loadbalancer
+    port: 32432
+    targetPort: 5432
   resources:
     limits:
      cpu: 400m
@@ -53,14 +42,10 @@ redis:
   image:
     repository: redis
     tag: "6"
-  volumes:  
-     name: redis-data-pvc
-     persistentVolumeClaim:
-         claimName: redis-data-pvc
   service:
-    type: NodePort
-    port: 6379
-    nodePort: 32379
+    type: LoadBalancer
+    port: 32379
+    targetPort: 6379
   resources:
     limits:
      cpu: 400m
@@ -68,14 +53,6 @@ redis:
     requests:
      cpu: 200m
      memory: 1Gi
-  livenessProbe:
-    httpGet:
-      path: /ping
-      port: 6379
-  readinessProbe:
-    httpGet:
-      path: /ping
-      port: 6379
   secret:
     create: true
     name: redis-secret
