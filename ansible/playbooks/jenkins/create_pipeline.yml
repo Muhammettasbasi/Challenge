@@ -34,6 +34,11 @@
                         sh 'sudo helm install challenge ./helm'
                       }
                     }
+                    stage('Start Minikube Tunnel') {
+                      steps {
+                        sh 'nohup sudo minikube tunnel --bind-address 0.0.0.0 > tunnel.log 2>&1 &'
+                      }
+                    }
                   }
                 }
               </script>
