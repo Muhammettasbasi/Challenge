@@ -38,10 +38,9 @@ spec:
           livenessProbe:
             exec:
               command:
-                - redis-cli
-                - -a
-                - "$(REDIS_PASSWORD)"
-                - ping
+                - sh
+                - -c
+                - "redis-cli -a $REDIS_PASSWORD ping"
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -49,11 +48,9 @@ spec:
           readinessProbe:
             exec:
               command:
-                - redis-cli
-                - -a
-                - "$(REDIS_PASSWORD)"
-                - ping
-            initialDelaySeconds: 5
+                - sh
+                - -c
+                - "redis-cli -a $REDIS_PASSWORD ping"
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
