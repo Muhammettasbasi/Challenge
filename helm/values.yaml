@@ -7,7 +7,7 @@ postgresql:
     repository: postgres
     tag: "latest"
   service:
-    type: Loadbalancer
+    type: LoadBalancer
     port: 32432
     targetPort: 5432
   resources:
