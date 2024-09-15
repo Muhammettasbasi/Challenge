@@ -9,7 +9,7 @@
 ```bash
 ansible-playbooks ansible/playbooks/main.yml -i ansible/inventory/hosts
 ```
-2. Gerekli kurulumlar yapıldıktan sonra jenkins arayüzü üzerinden jenkins kurulumu tamamlanır.
+2. Gerekli kurulumlar yapıldıktan sonra jenkins arayüzü üzerinden jenkins kurulumu tamamlanır.\
 **Not: host_ip ansible/inventory/hosts dosyası içerisindeki ip adresidir.**
 ```bash
 http:://host_ip:8080
