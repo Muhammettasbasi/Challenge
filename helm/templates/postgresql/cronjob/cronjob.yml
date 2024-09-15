@@ -41,7 +41,7 @@ spec:
                 # 7 günden eski dosyaları siliyoruz
                 find /backup -type f -name "*.sql" -mtime +7 -exec rm {} \;
                 # Yeni yedek dosyasını oluşturuyoruz
-                pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DB -F c -f /backup/$POSTGRES_DB_$(date +\%Y-\%m-\%d_\%H:\%M:\%S).sql;
+                PGPASSWORD=$POSTGRES_PASSWORD pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST -p 32432 -d $POSTGRES_DB -F c -f /backup/$POSTGRES_DB_$(date +\%Y-\%m-\%d-\%H:\%M:\%S).sql;
             volumeMounts:
             - name: backup-volume
               mountPath: /backup
